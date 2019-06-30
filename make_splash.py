@@ -18,15 +18,15 @@ splash_array = ["0x" + struct.pack("<I", *struct.unpack(">I", cont[x:x+4])).hex(
 if len(sys.argv) >= 3:
     header_template = sys.argv[2]
 else:
-    header_template = "boot_splash_screen.hpp"
+    header_template = "boot_splash_screen.inc"
 
 splash_name = os.path.basename(os.path.splitext(im.filename)[0])
 header_name, header_ext = os.path.splitext(header_template)
 header_name = os.path.basename(header_name)
 header_name += "_" + splash_name + header_ext 
 
-with open(header_name, "w") as header:
-    with open(header_template) as template:
+with open(header_template) as template:
+    with open(header_name, "w") as header:
         header.write(template.read().format(
             int((1280 - im.width)/2),
             int((720 - im.height)/2),

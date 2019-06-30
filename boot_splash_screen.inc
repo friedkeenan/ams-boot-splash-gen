@@ -14,11 +14,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
-#include <switch.h>
-
-#include "boot_types.hpp"
-
 static constexpr size_t SplashScreenX = {0};
 static constexpr size_t SplashScreenY = {1};
 static constexpr size_t SplashScreenW = {2};

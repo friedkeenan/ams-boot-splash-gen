@@ -2,7 +2,6 @@
 
 import sys
 import os
-import struct
 from PIL import Image
 
 try:
@@ -18,7 +17,13 @@ if im.mode != "RGBA":
 cont = im.tobytes()
 cont = [cont[x:x+4] if cont[x+3] != 0 else b"\x00" * 4 for x in range(0, len(cont), 4)]
 
-splash_array = ["0x" + struct.pack("<I", *struct.unpack(">I", x)).hex().upper() for x in cont]
+splash_array = []
+for b in cont:
+    tmp = bytearray()
+    tmp.append(b[-1])
+    tmp += b[:-1]
+
+    splash_array.append(f"0x{tmp.hex().upper()}")
 
 if len(sys.argv) >= 3:
     header_template = sys.argv[2]

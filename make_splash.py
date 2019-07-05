@@ -11,9 +11,14 @@ except IndexError:
     print("Usage: make_splash.py <image file> [splash header template]");
     sys.exit(1)
 
-cont = im.tobytes()
+if im.mode != "RGBA":
+    print("Image mode must be RGBA")
+    sys.exit(1)
 
-splash_array = ["0x" + struct.pack("<I", *struct.unpack(">I", cont[x:x+4])).hex().upper() for x in range(0, len(cont), 4)]
+cont = im.tobytes()
+cont = [cont[x:x+4] if cont[x+3] != 0 else b"\x00" * 4 for x in range(0, len(cont), 4)]
+
+splash_array = ["0x" + struct.pack("<I", *struct.unpack(">I", x)).hex().upper() for x in cont]
 
 if len(sys.argv) >= 3:
     header_template = sys.argv[2]
